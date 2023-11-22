@@ -10,6 +10,7 @@ public class Main {
 	}
 
 }
+
 class modeloMatriz {
 	private int[][] matriz;
 
@@ -34,14 +35,14 @@ class matrizVista {
 
 	public void imprimirMatriz(int[][] matriz) {
 		for (int i = 0; i < matriz.length; i++) {
-			for (int j = 0; j < matriz.length; j++) {
+			for (int j = 0; j < matriz[i].length; j++) {
 				System.out.println(matriz[i][j] + " ");
 			}
 			System.out.println();
 		}
 	}
-	
-	public void  secuencia(int[] secuencia) {
+
+	public void secuencia(int[] secuencia) {
 		for (int valor : secuencia) {
 			System.out.println(valor + " ");
 		}
@@ -50,20 +51,44 @@ class matrizVista {
 
 }
 
+class matrizControlador {
 
-class matrizControlador{
-	
 	private modeloMatriz modelo;
 	private matrizVista vista;
-	public matrizControlador(modeloMatriz modelo,matrizVista vista) {
-		this.modelo=modelo;
-		this.vista=vista;
+
+	public matrizControlador(modeloMatriz modelo, matrizVista vista) {
+		this.modelo = modelo;
+		this.vista = vista;
 	}
+
 	public void metodo(int numero, int fila, int columna) {
 		modelo.ingresarValores(numero, fila, columna);
-		
-		
+		int[][] matriz = modelo.getMatriz();
+		int filaValor = -1;
+		int columnaValor = -1;
+		boolean valorEncontrado = false;
+		for (int i = 0; i < matriz.length && !valorEncontrado; i++) {
+			for (int j = 0; j < matriz[i].length && !valorEncontrado; j++) {
+				if (matriz[i][j] != 0) {
+					filaValor = i;
+					columnaValor = j;
+					valorEncontrado = true;
+				}
+			}
+
+		}
+
+		if (filaValor != -1 && columnaValor != -1) {
+			
+			int[] valorHorizontal=matriz[filaValor];
+			int[] valorVertical= new int[matriz.length];
+			for (int i = 0; i < matriz.length; i++) {
+				valorVertical[i]=matriz[i][columnaValor];
+			}
+			vista.secuencia(valorHorizontal);
+			vista.secuencia(valorVertical);
+		}
+		vista.imprimirMatriz(matriz);
 	}
+
 }
-
-
